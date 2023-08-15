@@ -3,3 +3,5 @@ numpy
 requests
 fastapi
 uvicorn[standard]
+django
+django-ninja

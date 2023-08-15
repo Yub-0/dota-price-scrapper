@@ -1,21 +1,19 @@
-from fastapi import Request, FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-
+from ninja import NinjaAPI
 import numpy as np
 import pandas as pd
 import datetime
 import requests
 import json
-origins = ["*"]
+from typing import List, Any
+from ninja import Schema
 
-app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+api = NinjaAPI()
+
+
+class RequestData(Schema):
+    name: list[Any]
+
+
 def get_data_dict(value):
     f = pd.DataFrame(value)
     new_df = f.loc[f['tradability'] == 'Tradable']
@@ -29,10 +27,11 @@ def get_data_dict(value):
             }
     return data_dict
 
-@app.post("/price")
-async def get_body(request, item: Item):
-    value = await request.json()
 
+@api.post("/price")
+async def get_body(request, request_data: RequestData):
+    print('here')
+    value = request_data.name
     file_path = 'C:/Users/yub/PycharmProjects/dotapricescrapper/itemprice.json'
 
     with open(file_path, 'r') as file:
@@ -69,3 +68,12 @@ async def get_body(request, item: Item):
     with open(file_path, 'w') as file:
         json.dump(item_price_data, file)
     return value
+
+
+@api.get("/price")
+async def get_body(request):
+    print('here')
+    file_path = 'C:/Users/yub/PycharmProjects/dotapricescrapper/itemprice.json'
+    with open(file_path, 'r') as file:
+        item_price_data = json.load(file)
+    return item_price_data
