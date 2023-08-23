@@ -10,6 +10,10 @@ from ninja import Schema
 api = NinjaAPI()
 
 
+class RequestData(Schema):
+    name: str
+
+
 @api.post("/price")
 async def get_body(request, request_data: RequestData):
     value = request_data.name
