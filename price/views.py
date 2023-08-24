@@ -23,6 +23,10 @@ def get_body(request, request_data: RequestData):
     if not df.empty:
         df.replace({np.nan: None}, inplace=True)
         item_info = df.set_index('name').to_dict(orient='index')
+        item_date = item_info[value]['update_date'].date()
+        today = datetime.datetime.now().date()
+        if item_info[value]['price'] and item_date >=today:
+            return item_info
     else:
         item_info = {
                             value:{
@@ -66,8 +70,9 @@ def get_body(request, request_data: RequestData):
             pass
     if price_value:
         with connection.cursor() as cursor:
-            query = f'UPDATE price_item SET price={price_value}, update_date="{date_now}") where name = "{value}";'
+            query = f'UPDATE price_item SET price={price_value}, update_date="{date_now}" where name = "{value}";'
             cursor.execute(query)
+            connection.commit()
         item_info['price'] = price_value
         item_info['update_date'] = date_now
 
