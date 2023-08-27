@@ -39,7 +39,7 @@ def get_body(request, request_data: RequestData):
             cursor.execute(query)
 
     value_alt = value.replace(" ", "+")
-    url = 'https://steamcommunity.com/market/priceoverview/?country=NP&appid=570&market_hash_name=' + str(value)
+    url = 'https://steamcommunity.com/market/priceoverview/?country=US&appid=570&market_hash_name=' + str(value)
     url2 = (
         f"https://steamcommunity.com/market/search/render/?query={value_alt}&start=0&count=1&sort_column=popular&sort_dir=desc&"
         f"appid=570&norender=1")
