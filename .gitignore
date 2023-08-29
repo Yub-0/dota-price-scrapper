@@ -3,3 +3,4 @@ Scripts
 env
 .idea
 venv
+__pycache__/
