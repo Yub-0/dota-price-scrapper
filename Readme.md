@@ -8,3 +8,4 @@
 - optional: Run migration commands if using a completely new database,
 - Use `python manage.py runserver` to start the server on port 8000 or any other preferable ports.
 
+Note: Check out [Dota Inventory Extension](https://github.com/Yub-0/dota-inventory-extension) which uses this project as the backend.
